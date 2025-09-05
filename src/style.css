@@ -1,0 +1,179 @@
+/* ===== ESTILOS PARA LOGIN SELECTOR ===== */
+
+/* Contenedor principal */
+.login-grid-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Header */
+.grid-header {
+  text-align: center;
+  color: white;
+  margin-bottom: 2rem;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.logo {
+  font-size: 4rem;
+}
+
+.title h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 300;
+}
+
+.title p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+/* Contenido principal */
+.grid-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid-main h2 {
+  color: white;
+  font-size: 2rem;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.grid-options {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.grid-option {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  width: 320px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.grid-option:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+}
+
+.option-content {
+  text-align: center;
+}
+
+.option-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.grid-option h3 {
+  color: #2d3748;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.grid-option ul {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+.grid-option li {
+  color: #718096;
+  margin-bottom: 0.5rem;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.grid-option li:last-child {
+  border-bottom: none;
+}
+
+/* Footer */
+.grid-footer {
+  text-align: center;
+  color: white;
+  margin-top: 3rem;
+  opacity: 0.8;
+  padding: 1rem;
+}
+
+/* Estilos específicos para cada opción */
+.admin-option {
+  border-top: 4px solid #f56565; /* Rojo para admin */
+}
+
+.employee-option {
+  border-top: 4px solid #48bb78; /* Verde para empleado */
+}
+
+.admin-option:hover {
+  border-color: #e53e3e;
+}
+
+.employee-option:hover {
+  border-color: #38a169;
+}
+
+/* ===== ESTILOS RESPONSIVOS ===== */
+@media (max-width: 768px) {
+  .grid-options {
+    flex-direction: column;
+  }
+  
+  .grid-option {
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .logo-section {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* Agregar a tu style.css */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-container {
+  display: flex;
+  flex: 1;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  background: #f8f9fa;
+}
+
+/* Ajustar el contenido principal para considerar el membretado */
+.document-form,
+.document-preview,
+.admin-panel {
+  margin-top: 2rem;
+}
