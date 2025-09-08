@@ -21,14 +21,13 @@ const Login = ({ onLogin, userType, onBack }) => {
           setError(`Debe ingresar como ${userType === 'admin' ? 'Administrador' : 'Empleado'}`);
         } else {
           onLogin(result.user);
-          window.location.reload();
         }
       } else {
         setError(result.error || 'Credenciales incorrectas');
       }
     } catch (error) {
       console.error('Error en login:', error);
-      setError('Error de conexión');
+      setError('Error de conexión con el sistema');
     } finally {
       setLoading(false);
     }
@@ -37,33 +36,37 @@ const Login = ({ onLogin, userType, onBack }) => {
   return (
     <div className="login-container">
       <div className="login-box">
+        {/* Botón de volver */}
         <button 
           onClick={onBack}
           className="back-button"
-          style={{
-            position: 'absolute',
-            top: '15px',
-            left: '15px',
-            background: 'transparent',
-            border: 'none',
-            fontSize: '20px',
-            cursor: 'pointer',
-            color: '#667eea'
-          }}
+          title="Volver atrás"
         >
           ←
         </button>
 
-        <h2>🔐 Login para {userType === 'admin' ? 'Administrador' : 'Empleado'}</h2>
-        
+        {/* Header con logo */}
+        <div className="login-header">
+          <div className="login-logo">
+            {userType === 'admin' ? '👑' : '📋'}
+          </div>
+          <h2 className="login-title">
+            Login para {userType === 'admin' ? 'Administrador' : 'Empleado'}
+          </h2>
+          <p className="login-subtitle">Notaría Pública #143</p>
+        </div>
+
+        {/* Mensaje de error */}
         {error && <div className="error-message">{error}</div>}
-        
+
+        {/* Formulario */}
         <form onSubmit={handleSubmit} className="login-form">
           <input
             type="text"
             placeholder="Usuario"
             value={credentials.username}
             onChange={(e) => setCredentials({...credentials, username: e.target.value})}
+            className="login-input"
             required
             disabled={loading}
           />
@@ -72,14 +75,36 @@ const Login = ({ onLogin, userType, onBack }) => {
             placeholder="Contraseña"
             value={credentials.password}
             onChange={(e) => setCredentials({...credentials, password: e.target.value})}
+            className="login-input"
             required
             disabled={loading}
           />
           
-          <button type="submit" disabled={loading}>
-            {loading ? 'Verificando...' : 'Ingresar'}
+          <button 
+            type="submit" 
+            disabled={loading}
+            className="login-button"
+          >
+            {loading ? (
+              <>
+                <span className="loading-spinner"></span>
+                Verificando...
+              </>
+            ) : (
+              'Ingresar'
+            )}
           </button>
         </form>
+
+        {/* Información adicional */}
+        <div className="login-info">
+          <p>
+            {userType === 'admin' 
+              ? 'Acceso para gestión del sistema y usuarios'
+              : 'Acceso para registro de documentos y escrituras'
+            }
+          </p>
+        </div>
       </div>
     </div>
   );
