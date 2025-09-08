@@ -2,30 +2,29 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Notaría Pública 143</title>
+    <title>Notaria 143 - Sistema de Gestión</title>
     <style>
-        
-        .title-bar {
-            -webkit-app-region: drag; /* Permite arrastrar la ventana */
-            height: 30px;
-            background: #ebbbea;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 10px;
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            overflow: hidden;
         }
         
-       
-        
-        /* Contenido de la app */
-        .app-content {
-            padding: 20px;
+        #root {
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
 <body>
+    <div id="root"></div>
     
-    <div id="root"> </div>
+    <script>
+        // Exponer require para React pueda usar ipcRenderer
+        window.require = require;
+    </script>
 </body>
 </html>

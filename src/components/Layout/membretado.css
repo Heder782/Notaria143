@@ -1,51 +1,51 @@
+/* src/components/Layout/membretado.css */
+.membretado-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
 
-.letterhead {
-  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+.membretado-header {
+  background: linear-gradient(135deg, #1a3a6e 0%, #2c5282 100%);
   color: white;
-  padding: 1.5rem 2rem;
-  border-bottom: 4px solid #b38b59;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.letterhead-content {
-  max-width: 1200px;
-  margin: 0 auto;
+  padding: 12px 20px;
   text-align: center;
+  flex-shrink: 0;
 }
 
-.letterhead-number {
-  font-size: 3.5rem;
+.membretado-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.membretado-number {
+  font-size: 2rem;
   font-weight: bold;
-  color: #b38b59;
-  margin-bottom: 0.5rem;
-  font-family: 'Times New Roman', serif;
+  margin-bottom: 2px;
 }
 
-.letterhead-title {
-  margin-bottom: 1.5rem;
+.membretado-title {
+  margin-bottom: 10px;
 }
 
 .notaria-text {
   display: block;
-  font-size: 1.8rem;
-  font-weight: 300;
-  letter-spacing: 2px;
-  margin-bottom: 0.2rem;
+  font-size: 1.1rem;
+  font-weight: bold;
 }
 
 .publica-text {
   display: block;
-  font-size: 1.4rem;
-  font-weight: 600;
-  letter-spacing: 1px;
-  color: #b38b59;
+  font-size: 0.9rem;
+  font-style: italic;
 }
 
 .notaries {
   display: flex;
   justify-content: center;
-  gap: 3rem;
-  margin-bottom: 1.5rem;
+  gap: 20px;
+  margin: 10px 0;
   flex-wrap: wrap;
 }
 
@@ -55,48 +55,42 @@
 
 .notary .title {
   display: block;
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 0.3rem;
-  color: #ecf0f1;
+  font-weight: bold;
+  font-size: 0.75rem;
+  margin-bottom: 2px;
+  line-height: 1.1;
 }
 
 .notary .subtitle {
   display: block;
-  font-size: 0.9rem;
-  color: #b38b59;
+  font-size: 0.65rem;
   font-style: italic;
+  opacity: 0.9;
+  line-height: 1.1;
 }
 
 .services {
-  font-size: 1.1rem;
-  color: #ecf0f1;
-  letter-spacing: 1px;
-  padding-top: 1rem;
-  border-top: 1px solid #b38b59;
-  font-weight: 300;
+  font-size: 0.75rem;
+  font-weight: bold;
+  margin-top: 8px;
+  opacity: 0.9;
+}
+
+/* CONTENIDO PRINCIPAL CON SCROLL */
+.membretado-main-content {
+  flex: 1;
+  overflow-y: auto;
+  background: #f8f9fa;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .letterhead {
-    padding: 1rem;
-  }
-  
   .notaries {
     flex-direction: column;
-    gap: 1rem;
+    gap: 8px;
   }
   
-  .letterhead-number {
-    font-size: 2.5rem;
-  }
-  
-  .notaria-text {
-    font-size: 1.4rem;
-  }
-  
-  .publica-text {
-    font-size: 1.1rem;
+  .membretado-header {
+    padding: 10px 15px;
   }
 }

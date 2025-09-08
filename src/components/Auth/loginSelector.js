@@ -1,6 +1,7 @@
 // src/components/Auth/LoginSelector.js
 import React from 'react';
 import '../../style.css';
+
 const LoginSelector = ({ onSelectUserType }) => {
   return (
     <div className="login-grid-container">
