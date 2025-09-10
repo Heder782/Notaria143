@@ -60,8 +60,14 @@ function App() {
           
           <div className="main-content">
             {currentView === 'document' && (
-              <DocumentForm onSubmit={handleGenerateDocument} />
-            )}
+  <DocumentForm 
+    onSubmit={handleGenerateDocument} 
+    onBack={() => {
+      setCurrentUser(null);        // 👈 cerrar sesión
+      setCurrentView('selector');  // 👈 regresar al inicio
+    }} 
+  />
+)}
             
             {currentView === 'preview' && (
               <DocumentPreview
