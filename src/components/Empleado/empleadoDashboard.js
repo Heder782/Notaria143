@@ -1,10 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import DocumentForm from '../Document/documentForm';
+import DocumentContainer from '../Document/documentContainer';
 import Membretado from '../Layout/membretado';
 
 const { ipcRenderer } = window.require('electron');
 
 const EmployeeDashboard = ({ user }) => {
+  const [documentData, setDocumentData] = useState(null);
+  const [currentView, setCurrentView] = useState('form');
+
   const handleLogout = async () => {
     try {
       await ipcRenderer.invoke('logout-user');
@@ -26,6 +30,15 @@ const EmployeeDashboard = ({ user }) => {
     };
   }, []);
 
+  const handleFormSubmit = (data) => {
+    setDocumentData(data);
+    setCurrentView('preview');
+  };
+
+  const handleBackToForm = () => {
+    setCurrentView('form');
+  };
+
   return (
     <Membretado>
       <div style={{ 
@@ -33,7 +46,6 @@ const EmployeeDashboard = ({ user }) => {
         display: 'flex',
         flexDirection: 'column'
       }}>
-        {/* Header fijo */}
         <div style={{ 
           background: 'white', 
           padding: '15px', 
@@ -71,18 +83,20 @@ const EmployeeDashboard = ({ user }) => {
             </button>
           </div>
         </div>
-        
-        {/* Contenido con scroll */}
+
         <div style={{
           flex: 1,
           overflowY: 'auto',
           padding: '15px'
         }}>
-          <div style={{
-            maxWidth: '1200px',
-            margin: '0 auto'
-          }}>
-            <DocumentForm currentUser={user} />
+          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+            {currentView === 'form' && <DocumentForm onSubmit={handleFormSubmit} />}
+            {currentView === 'preview' && documentData && (
+              <DocumentContainer 
+                documentData={documentData} 
+                onBack={handleBackToForm} 
+              />
+            )}
           </div>
         </div>
       </div>

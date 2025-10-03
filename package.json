@@ -24,6 +24,10 @@
     "wait-on": "^8.0.4"
   },
   "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ],
     "rules": {
       "semi": "off",
       "object-curly-spacing": "off",
@@ -32,6 +36,9 @@
   },
   "dependencies": {
     "googleapis": "^159.0.0",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.3",
+    "qrcode": "^1.5.4",
     "qrcode.react": "^4.2.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
