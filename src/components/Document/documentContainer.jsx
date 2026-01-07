@@ -1,16 +1,23 @@
+// src/components/Document/documentContainer.jsx
 import React, { useState, useEffect } from 'react';
 import QRCode from 'qrcode';
+import { v4 as uuidv4 } from 'uuid';
+
 import DocumentPreview from './documentPreview';
-import { generatePDFs } from '../../services/pdfService';
+import DocumentPreviewNube from './documentPreviewNube';
+import { generateAndUploadPDF } from '../../services/pdfService';
 
 const DocumentContainer = ({ documentData, onBack }) => {
   const [qrCode, setQrCode] = useState('');
+  // ID único del documento
+  const [docId] = useState(uuidv4());
 
   useEffect(() => {
     const generateQRCode = async () => {
       try {
-        const url = `https://notaria143.com/document/${documentData.escritura}`; // QR apunta a URL
-        const qr = await QRCode.toDataURL(url);
+        // URL que el cliente escaneará
+        const urlNube = `https://notaria-docs.notariapublica143.workers.dev/${docId}`;
+        const qr = await QRCode.toDataURL(urlNube);
         setQrCode(qr);
       } catch (error) {
         console.error('Error generando QR:', error);
@@ -18,28 +25,32 @@ const DocumentContainer = ({ documentData, onBack }) => {
     };
 
     generateQRCode();
-  }, [documentData]);
+  }, [docId]);
 
-  const handleSave = () => {
-    generatePDFs(documentData, qrCode); // Genera ambos PDFs en tu PC
-  };
-
-  const handlePrint = () => {
-    window.print();
-  };
-
-  const handleEdit = () => {
-    onBack();
+  const handleSaveAndUpload = () => {
+    // Ahora SOLO mandamos los datos y el docId
+    generateAndUploadPDF(documentData, docId);
   };
 
   return (
-    <DocumentPreview
-      documentData={documentData}
-      qrCode={qrCode}
-      onEdit={handleEdit}
-      onPrint={handlePrint}
-      onSave={handleSave}
-    />
+    <>
+      {/* ===== DOCUMENTO CLIENTE (VISIBLE) ===== */}
+      <DocumentPreview
+        documentData={documentData}
+        qrCode={qrCode}
+        onEdit={onBack}
+        onPrint={() => window.print()}
+        onSave={handleSaveAndUpload}
+      />
+
+      {/* ===== DOCUMENTO NUBE (OCULTO) ===== */}
+      <div style={{ position: 'absolute', left: '-9999px', top: 0 }}>
+        <DocumentPreviewNube
+          documentData={documentData}
+          qrCode={qrCode}
+        />
+      </div>
+    </>
   );
 };
 

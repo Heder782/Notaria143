@@ -1,16 +1,17 @@
 // src/services/pdfService.js
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { uploadToCloudflare } from './cloudservice';
 
-export const generatePDFs = async (documentData, qrCode) => {
-  const input = document.getElementById('document-to-print');
+export const generateAndUploadPDF = async (documentData, docId) => {
+  // ===== PDF LOCAL (visible) =====
+  const localElement = document.getElementById('document-to-print');
 
-  if (!input) {
-    console.error("Error: El elemento 'document-to-print' no fue encontrado en el DOM.");
+  if (!localElement) {
+    console.error("Error: El elemento 'document-to-print' no fue encontrado.");
     return;
   }
 
-  const qrElement = input.querySelector('.qr-section');
   const canvasOptions = {
     scale: 2,
     logging: false,
@@ -18,37 +19,47 @@ export const generatePDFs = async (documentData, qrCode) => {
   };
 
   try {
-    // ---------------- PDF CLIENTE (Sin QR) ----------------
-    if (qrElement) qrElement.style.display = 'none';
-    await new Promise(resolve => setTimeout(resolve, 100)); // Esperar a que el DOM actualice el estilo
-
-    const canvasCliente = await html2canvas(input, canvasOptions);
-    const imgCliente = canvasCliente.toDataURL('image/png');
-    const pdfCliente = new jsPDF('p', 'mm', 'a4');
-    const imgWidth = 210;
-    const pageHeight = 295;
-    const imgHeight = (canvasCliente.height * imgWidth) / canvasCliente.width;
-
-    pdfCliente.addImage(imgCliente, 'PNG', 0, 0, imgWidth, imgHeight);
-    pdfCliente.save(`Documento_Cliente_${documentData.escritura}.pdf`);
-
-
+    // ----- 1️⃣ PDF para la PC -----
+    console.log("Generando PDF local...");
+    const canvasLocal = await html2canvas(localElement, canvasOptions);
+    const imgDataLocal = canvasLocal.toDataURL('image/png');
+    const pdfLocal = new jsPDF('p', 'mm', 'a4');
     
-    // ---------------- PDF EMPLEADO (Con QR) ----------------
-    if (qrElement) qrElement.style.display = 'block';
-    await new Promise(resolve => setTimeout(resolve, 100)); // Esperar a que el QR se muestre
+    const imgWidth = 210;
+    const imgHeight = (canvasLocal.height * imgWidth) / canvasLocal.width;
+    pdfLocal.addImage(imgDataLocal, 'PNG', 0, 0, imgWidth, imgHeight);
 
-    const canvasEmpleado = await html2canvas(input, canvasOptions);
-    const imgEmpleado = canvasEmpleado.toDataURL('image/png');
-    const pdfEmpleado = new jsPDF('p', 'mm', 'a4');
-    const imgHeightEmp = (canvasEmpleado.height * imgWidth) / canvasEmpleado.width;
+    // Guardar PDF local
+    pdfLocal.save(`Escritura_${documentData.escritura}_Local.pdf`);
 
-    pdfEmpleado.addImage(imgEmpleado, 'PNG', 0, 0, imgWidth, imgHeightEmp);
-    pdfEmpleado.save(`Documento_Empleado_${documentData.escritura}.pdf`);
+    // ----- 2️⃣ PDF para la NUBE -----
+    const cloudElement = document.getElementById('document-to-upload');
+    if (!cloudElement) {
+      console.error("Error: El elemento 'document-to-upload' no fue encontrado.");
+      alert("No se pudo generar la versión nube del PDF.");
+      return;
+    }
+
+    console.log("Generando PDF para la nube...");
+    const canvasCloud = await html2canvas(cloudElement, canvasOptions);
+    const imgDataCloud = canvasCloud.toDataURL('image/png');
+    const pdfCloud = new jsPDF('p', 'mm', 'a4');
+    const imgHeightCloud = (canvasCloud.height * imgWidth) / canvasCloud.width;
+    pdfCloud.addImage(imgDataCloud, 'PNG', 0, 0, imgWidth, imgHeightCloud);
+
+    // Convertir a Blob para subir
+    const pdfBlobCloud = pdfCloud.output('blob');
+
+    // Subir a Cloudflare R2 usando docId
+    const exito = await uploadToCloudflare(pdfBlobCloud, docId);
+
+    if (exito) {
+      alert("🎉 ¡ÉXITO! Documento guardado localmente y disponible en la nube vía QR.");
+    } else {
+      alert("⚠️ ATENCIÓN: PDF local OK, pero NO se pudo subir la versión nube. Revisa conexión o token.");
+    }
   } catch (error) {
-    console.error("Error generando PDFs:", error);
-  } finally {
-    // Restaurar estado del QR en el DOM
-    if (qrElement) qrElement.style.display = 'block';
+    console.error("Error en proceso de PDF:", error);
+    alert("Error crítico al generar el documento.");
   }
 };

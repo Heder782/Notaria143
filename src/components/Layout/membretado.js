@@ -5,15 +5,20 @@ import './membretado.css';
 const Membretado = ({ children }) => {
   return (
     <div className="membretado-container">
-      {/* Encabezado del membretado */}
+      {/* Encabezado con degradado y brillo central */}
       <div className="membretado-header">
         <div className="membretado-content">
-          <div className="membretado-number">143</div>
-          <div className="membretado-title">
-            <span className="notaria-text">NOTARÍA</span>
-            <span className="publica-text">PÚBLICA</span>
+          
+          {/* Sección del Logotipo (Reemplaza a los textos 143 Notaría) */}
+          <div className="logo-container-premium">
+            <img 
+              src="/images/NotariaLogo.png" 
+              alt="Notaría 143" 
+              className="main-logo-img" 
+            />
           </div>
           
+          {/* Sección de Notarios */}
           <div className="notaries">
             <div className="notary">
               <span className="title">LIC. CARLOS ALBERTO DÍAZ HERNÁNDEZ</span>
@@ -22,17 +27,18 @@ const Membretado = ({ children }) => {
             
             <div className="notary">
               <span className="title">LIC. ADELÍN DÍAZ GARCÍA</span>
-              <span className="subtitle">NOTARIO PÚBLICO</span>
+              <span className="subtitle">NOTARIO ADJUNTO</span>
             </div>
           </div>
           
+          {/* Lema inferior */}
           <div className="services">
             SERVICIOS NOTARIALES Y LEGALES
           </div>
         </div>
       </div>
 
-      {/* Contenido principal CON SCROLL */}
+      {/* Contenedor del contenido (Panel de Admin, Formularios, etc) */}
       <div className="membretado-main-content">
         {children}
       </div>

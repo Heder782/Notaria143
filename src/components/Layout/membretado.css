@@ -1,4 +1,5 @@
 /* src/components/Layout/membretado.css */
+
 .membretado-container {
   height: 100vh;
   display: flex;
@@ -7,46 +8,60 @@
 }
 
 .membretado-header {
-  background: linear-gradient(135deg, #1a3a6e 0%, #2c5282 100%);
+  /* Mantenemos tu degradado con brillo central cian */
+  background: 
+    radial-gradient(circle at center, #00d2ff 0%, transparent 85%), 
+    linear-gradient(90deg, #001540 0%, #003399 50%, #001540 100%);
+  
   color: white;
-  padding: 12px 20px;
+  padding: 10px 20px; /* Reducido para menos separación */
   text-align: center;
   flex-shrink: 0;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  /* Eliminado el borde inferior blanco sutil */
+  border-bottom: none; 
+  position: relative;
+  overflow: hidden;
+}
+
+/* Se elimina la línea de brillo superior para un look más limpio */
+.membretado-header::before {
+  display: none;
 }
 
 .membretado-content {
-  max-width: 800px;
+  max-width: 600px;
   margin: 0 auto;
 }
 
-.membretado-number {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 2px;
+/* --------- Logo con corrección de transparencia --------- */
+.logo-container-premium {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5px; /* Separación mínima */
 }
 
-.membretado-title {
-  margin-bottom: 10px;
+.main-logo-img {
+  height: 130px; /* Tamaño ajustado y elegante */
+  width: auto;
+  object-fit: contain;
+  
+  /* TRUCO PARA FONDO BLANCO: Hace que el blanco sea transparente sobre el fondo azul 
+  mix-blend-mode: multiply; 
+  
+  Filtro de apoyo para suavizar bordes 
+  filter: contrast(1.1) brightness(1.1);*/
 }
 
-.notaria-text {
-  display: block;
-  font-size: 1.1rem;
-  font-weight: bold;
-}
-
-.publica-text {
-  display: block;
-  font-size: 0.9rem;
-  font-style: italic;
-}
-
+/* --------- Sección de Notarios (Letra chica y sin líneas) --------- */
 .notaries {
   display: flex;
   justify-content: center;
-  gap: 20px;
-  margin: 10px 0;
+  gap: 25px; /* Menos separación entre notarios */
+  margin: 5px 0;
   flex-wrap: wrap;
+  border: none; /* Sin líneas divisorias */
 }
 
 .notary {
@@ -56,24 +71,29 @@
 .notary .title {
   display: block;
   font-weight: bold;
-  font-size: 0.75rem;
-  margin-bottom: 2px;
+  font-size: 0.75rem; /* Letra más pequeña como pediste */
   line-height: 1.1;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
 }
 
 .notary .subtitle {
   display: block;
-  font-size: 0.65rem;
+  font-size: 0.6rem; /* Subtítulo muy pequeño y discreto */
   font-style: italic;
-  opacity: 0.9;
+  opacity: 0.85;
   line-height: 1.1;
 }
 
+/* --------- Lema Superior (Letra chica) --------- */
 .services {
-  font-size: 0.75rem;
+  font-size: 0.65rem; /* Tamaño reducido */
   font-weight: bold;
-  margin-top: 8px;
+  margin-top: 5px;
   opacity: 0.9;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  border: none; /* Sin líneas divisorias */
 }
 
 /* CONTENIDO PRINCIPAL CON SCROLL */
@@ -91,6 +111,10 @@
   }
   
   .membretado-header {
-    padding: 10px 15px;
+    padding: 8px 10px;
+  }
+  
+  .main-logo-img {
+    height: 65px;
   }
 }

@@ -1,7 +1,14 @@
 import React from 'react';
 import { actos } from './documentForm';
 
-const DocumentPreview = ({ documentData, qrCode, onEdit, onPrint, onSave }) => {
+const DocumentPreview = ({ 
+  documentData, 
+  qrCode, 
+  onEdit, 
+  onPrint, 
+  onSave,
+  spacing = { logo: 5, notaries: 70, qr: 80, bodyTop: 50 } // 👈 valores por defecto
+}) => {
   const LOGO_SRC = '/images/NotariaLogo.png';
 
   // 👉 Construye la descripción del acto
@@ -25,12 +32,11 @@ const DocumentPreview = ({ documentData, qrCode, onEdit, onPrint, onSave }) => {
 
     return (
       <p
-        className="document-description"
         style={{ 
-          textAlign: 'justify',    // 👈 texto justificado
-          lineHeight: '1.5',       // 👈 espacio entre líneas
-          margin: '0 auto',        // 👈 centrado dentro del bloque
-          maxWidth: '100%',        // 👈 ancho del texto (ajústalo si quieres más margen)
+          textAlign: 'justify',
+          lineHeight: '1.5',
+          margin: '0 auto',
+          maxWidth: '100%',
           fontSize: '12px',
           fontWeight: 'bold',
         }}
@@ -54,15 +60,14 @@ const DocumentPreview = ({ documentData, qrCode, onEdit, onPrint, onSave }) => {
         <button onClick={onSave}>Guardar PDF</button>
       </div>
 
-      {/* ================== CONTENEDOR PRINCIPAL (la hoja completa) ================== */}
+      {/* ================== CONTENEDOR PRINCIPAL ================== */}
       <div
-        className="document-template"
         id="document-to-print"
         style={{ 
-          paddingTop: '60px',      // 👈 margen superior
-          paddingBottom: '80px',   // 👈 margen inferior (ajústalo si quieres más aire abajo)
-          paddingLeft: '70px',     // 👈 margen izquierdo
-          paddingRight: '70px',    // 👈 margen derecho
+          paddingTop: '40px',
+          paddingBottom: '60px',
+          paddingLeft: '90px',
+          paddingRight: '70px',
           margin: '20px auto',
           maxWidth: '210mm',
           minHeight: '297mm',
@@ -76,12 +81,12 @@ const DocumentPreview = ({ documentData, qrCode, onEdit, onPrint, onSave }) => {
         }}
       >
         {/* Logo */}
-        <div className="logo-section" style={{ margin: '40px 0 20px 0' }}>
-          <img src={LOGO_SRC} alt="Logo Notaría 143" style={{ width: '350px', height: '50' }} />
+        <div style={{ marginBottom: `${spacing.logo}px` }}>
+          <img src={LOGO_SRC} alt="Logo Notaría 143" style={{ width: '350px',  }} />
         </div>
 
-        {/* Notarios debajo del logo */}
-        <div className="notaries-info" style={{ marginBottom: '30px', fontSize: '16px', textAlign: 'center', color: '#153faa8e' }}>
+        {/* Notarios */}
+        <div style={{ marginBottom: `${spacing.notaries}px`, fontSize: '16px', color: '#153faa8e' }}>
           <p style={{ margin: '1px 0' }}>
             <strong>Lic. Carlos Alberto Díaz Hernández</strong><br/>
             <span style={{ fontSize: '12px'}}>Notario Público</span>
@@ -92,54 +97,24 @@ const DocumentPreview = ({ documentData, qrCode, onEdit, onPrint, onSave }) => {
           </p>
         </div>
 
-        {/* QR centrado */}
+        {/* QR */}
         {qrCode && (
-          <div
-            className="qr-section"
-            style={{ 
-              display: 'flex', 
-              flexDirection: 'column', 
-              alignItems: 'center', 
-              justifyContent: 'center', 
-              margin: '40px 0' 
-            }}
-          >
-            <img src={qrCode} alt="Código QR" className="qr-code" style={{ width: '100px', height: '100px' }} />
+          <div style={{ marginBottom: `${spacing.qr}px` }}>
+            <img src={qrCode} alt="Código QR" style={{ width: '100px', height: '100px' }} />
             <p style={{ fontSize: '12px', marginTop: '10px' }}>Escanee este código para su formato digital</p>
           </div>
         )}
 
-        {/* ================== CUERPO DEL DOCUMENTO ================== */}
-        <div 
-          className="document-body" 
-          style={{ 
-            marginTop: '30px',     // 👈 espacio arriba del cuerpo
-            marginBottom: '40px',  // 👈 espacio abajo del cuerpo
-            fontSize: '12px',
-            lineHeight: '1.5',
-            width: '100%',
-            textAlign: 'justify'
-          }}
-        >
-          {/* Bloque de Escritura y Libro */}
-          <div 
-            style={{ 
-              maxWidth: '100%',     // 👈 ancho máximo del bloque
-              margin: '0 auto'      // 👈 centrado
-            }}
-          >
-            <p style={{ marginBottom: '10px', fontWeight: 'bold' }}>
-              ESCRITURA NÚMERO {documentData.escritura}
-            </p>
-            <p style={{ marginBottom: '10px', fontWeight: 'bold' }}>
-              LIBRO NÚMERO {documentData.libro}
-            </p>
-
-            {/* Descripción del Acto */}
-            {formatActoDescription()}
-          </div>
+        {/* Cuerpo */}
+        <div style={{ marginTop: `${spacing.bodyTop}px`, width: '100%', textAlign: 'justify' }}>
+          <p style={{ marginBottom: '10px', fontWeight: 'bold' }}>
+            ESCRITURA NÚMERO {documentData.escritura}
+          </p>
+          <p style={{ marginBottom: '10px', fontWeight: 'bold' }}>
+            LIBRO NÚMERO {documentData.libro}
+          </p>
+          {formatActoDescription()}
         </div>
-
       </div>
     </div>
   );
